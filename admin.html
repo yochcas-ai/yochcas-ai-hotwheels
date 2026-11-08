@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin · Ruma Hot Wheels</title>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{--brand:#4B2E83;--brand-m:#8E64E2;--sec:#FFB727;--bg:#FFF8D8;--ink:#131316;--card:#fff;--line:rgba(75,46,131,.16);--muted:#5b5470;--ok:#1fa35b;--red:#FF3B3B}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:Quicksand,system-ui,sans-serif;font-weight:600;min-height:100vh}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.display{font-family:'Luckiest Guy';font-weight:400;letter-spacing:.02em}
+header{background:var(--brand);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+header h1{font-size:24px;color:var(--sec);text-shadow:2px 2px 0 #131316}
+header .sp{flex:1}
+.btn{background:var(--sec);color:#131316;border:2px solid #131316;border-radius:12px;padding:9px 16px;font-weight:700;box-shadow:3px 3px 0 #131316}
+.btn.ghost{background:transparent;color:inherit;border-color:currentColor;box-shadow:none}
+.btn.ok{background:var(--ok);color:#fff}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.login{max-width:380px;margin:12vh auto;padding:24px;background:var(--card);border:3px solid #131316;border-radius:22px;box-shadow:8px 8px 0 #131316;display:flex;flex-direction:column;gap:12px}
+.login h2{font-size:30px;color:var(--brand)}
+.login input{padding:12px;border-radius:12px;border:2px solid var(--line);background:transparent}
+.msg{font-size:14px;min-height:20px}.msg.err{color:var(--red)}.msg.ok{color:var(--ok)}
+main{max-width:1100px;margin:0 auto;padding:16px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px}
+@media(max-width:820px){main{grid-template-columns:minmax(0,1fr)}.rows{max-height:42vh}header h1{font-size:19px}#who{display:none}header .sp{display:none}}
+.pane,.list{min-width:0}
+.back{display:none}@media(max-width:820px){.back{display:inline-flex;align-self:flex-start}}
+.list{background:var(--card);border:2px solid var(--line);border-radius:18px;overflow:hidden;max-height:calc(100vh - 110px);display:flex;flex-direction:column;padding-top:10px}
+.list>.btn{margin:0 10px 8px}
+.filters{padding:10px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.filters button{padding:6px 12px;border-radius:999px;border:2px solid var(--brand);background:transparent;font-weight:700;font-size:13px}
+.filters button[aria-pressed=true]{background:var(--brand);color:#fff}
+.filters input,.filters select{width:100%;padding:8px 10px;border-radius:10px;border:2px solid var(--line);background:transparent}
+.rows{overflow:auto}
+.r{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px}
+.r:hover,.r.sel{background:rgba(142,100,226,.16)}
+.r .m{color:var(--muted);font-size:12px;grid-column:1/-1}
+.dot{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:11px;border:2px solid var(--line);color:var(--muted)}
+.dot.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.pane{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.pane h2{font-size:17px;line-height:1.3}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px}
+.drop{border:3px dashed var(--brand-m);border-radius:18px;aspect-ratio:4/5;max-width:320px;display:grid;place-items:center;text-align:center;padding:10px;position:relative;overflow:hidden;background:rgba(142,100,226,.07);cursor:pointer}
+.drop.over{background:rgba(255,183,39,.25)}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#2e1b57}
+.drop .bar{position:absolute;left:0;bottom:0;height:6px;background:var(--ok);width:0;transition:width .2s;z-index:3}
+.drop input{display:none}
+.hint{font-size:13px;color:var(--muted);font-weight:500}
+.box{border:2px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.box h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.line{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.in{padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:transparent;min-width:0}
+.in.num{width:110px}
+.step{width:38px;height:38px;border-radius:10px;border:2px solid var(--brand);background:transparent;font-size:20px;font-weight:700}
+.big{font-size:22px;min-width:34px;text-align:center}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr.anul{opacity:.45;text-decoration:line-through}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.kpi{border:2px solid var(--line);border-radius:14px;padding:10px 16px;background:var(--card)}
+.kpi b{display:block;font-size:22px;color:var(--brand)}
+.empty{color:var(--muted);padding:40px 10px;text-align:center}
+</style>
+</head>
+<body>
+<header><h1 class="display">RUMA · Hot Wheels</h1><nav id="nav" hidden style="display:flex;gap:6px"><button class="btn ghost" id="vAutos" style="padding:6px 12px">Autos</button><button class="btn ghost" id="vVentas" style="padding:6px 12px">Ventas</button></nav><div class="sp"></div><span id="who" style="font-size:13px"></span><button class="btn ghost" id="out" hidden>Salir</button></header>
+
+<section id="loginBox" class="login" hidden>
+  <h2 class="display">Entrar</h2>
+  <p class="hint">Solo el correo de Ruma puede administrar.</p>
+  <input id="em" type="email" placeholder="correo" autocomplete="username">
+  <input id="pw" type="password" placeholder="contraseña (mín. 8)" autocomplete="current-password">
+  <button class="btn" id="go">Entrar</button>
+  <div class="msg" id="lmsg"></div>
+</section>
+
+<main id="app" hidden>
+  <div class="list">
+    <button class="btn ok" id="nuevo">+ Nuevo auto</button>
+    <div class="filters" id="filters"></div>
+    <div class="rows" id="rows"></div>
+  </div>
+  <div class="pane" id="pane"><div class="empty">Elige un auto de la lista.</div></div>
+</main>
+
+<section id="ventasView" hidden style="max-width:1100px;margin:0 auto;padding:16px"></section>
+
+<script>
+'use strict';
+const SB_URL='https://icqqrsmswvnxebsnqfhk.supabase.co';
+const SB_KEY='sb_publishable_7XsKiTIDSGOnPrXs_h0E4Q_wMZvcBke';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=s=>document.querySelector(s);
+const el=(t,a={},...k)=>{const e=document.createElement(t);for(const[kk,v]of Object.entries(a)){if(kk==='class')e.className=v;else if(kk.startsWith('on'))e.addEventListener(kk.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(kk,v)}k.flat().forEach(c=>e.append(c?.nodeType?c:document.createTextNode(c??'')));return e};
+const money=n=>'S/ '+Number(n).toLocaleString('es-PE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fotoSrc=u=>{if(!u)return '';if(/^img\/[a-z0-9._-]+$/i.test(u))return '/'+u;try{const x=new URL(u);return x.origin===SB_URL?x.href:''}catch{return ''}};
+let autos=[],filtro='Todos',buscar='',sel=null,orden='az';
+
+async function boot(){
+  const{data:{session}}=await sb.auth.getSession();
+  if(!session){$('#loginBox').hidden=false;$('#app').hidden=true;$('#nav').hidden=true;$('#out').hidden=true;return}
+  $('#loginBox').hidden=true;$('#nav').hidden=false;$('#who').textContent=session.user.email;$('#out').hidden=false;
+  const{data,error}=await sb.rpc('admin_listar');
+  if(error){$('#app').hidden=true;$('#loginBox').hidden=false;msg('Esta cuenta no tiene permiso. Entra con el correo de Ruma.',1);await sb.auth.signOut();$('#out').hidden=true;return}
+  autos=data;$('#app').hidden=false;renderList();if(sel)renderPane();
+}
+const msg=(t,err)=>{const m=$('#lmsg');m.textContent=t;m.className='msg '+(err?'err':'ok')};
+$('#go').onclick=async()=>{const{error}=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});if(error)msg(error.message.includes('confirm')?'Falta confirmar el correo (revisa tu bandeja).':'Correo o contraseña incorrectos.',1);else boot()};
+$('#out').onclick=async()=>{await sb.auth.signOut();sel=null;boot()};
+
+function renderList(){
+  const fs=$('#filters');fs.replaceChildren();
+  ['Todos','Con stock','Agotados','Sin foto'].forEach(f=>fs.append(el('button',{'aria-pressed':String(f===filtro),onclick:()=>{filtro=f;renderList()}},f)));
+  fs.append(el('input',{type:'search',placeholder:'Buscar…','aria-label':'Buscar',value:buscar,oninput:e=>{buscar=e.target.value;renderRows()}}));
+  fs.append(el('select',{'aria-label':'Ordenar',onchange:e=>{orden=e.target.value;renderRows()}},
+    [['az','Orden: A → Z (agotados al final)'],['za','Orden: Z → A (agotados al final)'],['pv','Orden: mayor precio (agotados al final)']].map(([v,t])=>el('option',{value:v,selected:v===orden},t))));
+  renderRows();
+}
+function renderRows(){
+  const rows=$('#rows');rows.replaceChildren();
+  const q=buscar.trim().toLowerCase();
+  const name=a=>a.nombre.replace(/^['"´`]+/,'');
+  const cmp=(a,b)=>{
+    const ag=(a.stock>0?0:1)-(b.stock>0?0:1);if(ag)return ag;
+    if(orden==='pv')return (b.precio||0)-(a.precio||0)||name(a).localeCompare(name(b),'es',{sensitivity:'base'});
+    const r=name(a).localeCompare(name(b),'es',{sensitivity:'base',numeric:true});
+    return orden==='za'?-r:r;
+  };
+  autos.filter(a=>(filtro==='Todos'||(filtro==='Con stock'?a.stock>0:filtro==='Agotados'?a.stock<1:!a.foto))&&(!q||(a.nombre+' '+(a.serie||'')).toLowerCase().includes(q))).sort(cmp).forEach(a=>{
+    rows.append(el('div',{class:'r'+(sel===a.id?' sel':''),onclick:()=>{sel=a.id;renderRows();renderPane();if(innerWidth<=820)$('#pane').scrollIntoView({behavior:'smooth',block:'start'})}},
+      el('div',{},a.nombre+(a.variante?' · '+a.variante:'')),
+      el('span',{class:'dot'+(a.foto?' on':''),title:'Foto'},'F'),
+      el('div',{class:'m'},`${a.precio?money(a.precio):'—'} · ${a.stock>0?'stock '+a.stock:'agotado'}`)));
+  });
+}
+
+function renderPane(){
+  const a=autos.find(x=>x.id===sel);if(!a)return;
+  const visible=a.precio>0&&a.foto;
+  const rpc=async(fn,args,ok)=>{const{error}=await sb.rpc(fn,args);if(error)return alert('No se pudo: '+error.message);await boot();if(ok)ok()};
+  const nomIn=el('input',{class:'in',value:a.nombre,maxlength:'200',style:'flex:1;min-width:200px'});
+  const serIn=el('input',{class:'in',value:a.serie||'',maxlength:'200',style:'flex:1;min-width:200px',placeholder:'Serie'});
+  const pIn=el('input',{class:'in num',type:'number',min:'0',step:'0.1',inputmode:'decimal',value:a.precio??''});
+  const venta=el('div',{class:'box',hidden:true});
+  const vp=el('input',{class:'in num',type:'number',min:'0',step:'0.1',value:a.precio??''});
+  const vc=el('select',{class:'in'},['WhatsApp','Instagram','TikTok','Grupo de HW','Tienda / en persona','Otro'].map(x=>el('option',{},x)));
+  const vcl=el('input',{class:'in',placeholder:'Cliente (opcional)',maxlength:'120'});
+  const vn=el('input',{class:'in',placeholder:'Nota (opcional)',maxlength:'300',style:'flex:1;min-width:160px'});
+  venta.append(el('h3',{},'Registrar venta (1 unidad)'),
+    el('div',{class:'line'},el('span',{},'Precio final S/'),vp,vc),
+    el('div',{class:'line'},vcl,vn),
+    el('div',{class:'line'},el('button',{class:'btn ok',onclick:()=>{if(vp.value===''||!(+vp.value>=0))return alert('Pon el precio final');rpc('admin_registrar_venta',{p_id:a.id,p_precio:+vp.value,p_canal:vc.value,p_cliente:vcl.value,p_nota:vn.value},()=>alert('Venta registrada. Stock descontado.'))}},'Confirmar venta'),
+      el('button',{class:'btn ghost',onclick:()=>venta.hidden=true},'Cancelar')));
+  $('#pane').replaceChildren(
+    el('button',{class:'btn ghost back',style:'padding:6px 12px',onclick:()=>$('.list').scrollIntoView({behavior:'smooth'})},'← Lista'),
+    el('h2',{},a.nombre+(a.variante?' · '+a.variante:'')),
+    el('div',{class:'facts'},el('span',{class:'chip'},a.tipo==='fantasia'?'Fantasía':'Licenciado'),
+      el('span',{class:'chip'},visible?'✅ Visible en la web':'⏳ No visible: falta '+[!(a.precio>0)&&'precio',!a.foto&&'foto'].filter(Boolean).join(' y '))),
+    el('div',{class:'box'},el('h3',{},'Nombre y serie'),
+      el('div',{class:'line'},nomIn),el('div',{class:'line'},serIn,el('button',{class:'btn',onclick:()=>{if(nomIn.value.trim().length<3)return alert('Nombre muy corto');rpc('admin_set_nombre',{p_id:a.id,p_nombre:nomIn.value,p_serie:serIn.value})}},'Guardar'))),
+    el('div',{class:'box'},el('h3',{},'Precio y stock'),
+      el('div',{class:'line'},el('span',{},'Precio S/'),pIn,el('button',{class:'btn',onclick:()=>{if(pIn.value===''||!(+pIn.value>=0))return alert('Pon un precio válido');rpc('admin_set_precio',{p_id:a.id,p_precio:+pIn.value})}},'Guardar precio')),
+      el('div',{class:'line'},el('span',{},'Stock'),el('button',{class:'step',onclick:()=>rpc('admin_set_stock',{p_id:a.id,p_stock:Math.max(0,a.stock-1)})},'−'),el('span',{class:'big'},String(a.stock)),el('button',{class:'step',onclick:()=>rpc('admin_set_stock',{p_id:a.id,p_stock:a.stock+1})},'+'),
+        el('button',{class:'btn',style:'margin-left:auto',disabled:a.stock<1,onclick:()=>{venta.hidden=false}},'Registrar venta'))),
+    venta,
+    drop(a),
+    el('p',{class:'hint'},'Foto obligatoria para que se vea en la web. Se sube en buena calidad (hasta 1600 px) y se crea sola una versión liviana.'));
+}
+
+$('#nuevo').onclick=()=>{
+  sel=null;renderRows();
+  const n=el('input',{class:'in',placeholder:"Nombre (ej. '23 Ram 1500)",maxlength:'200',style:'flex:1;min-width:220px'});
+  const s=el('input',{class:'in',placeholder:'Serie (ej. HW Dirt 8/10 · 224/250)',maxlength:'200',style:'flex:1;min-width:220px'});
+  const t=el('select',{class:'in'},[['licenciado','Licenciado'],['fantasia','Fantasía']].map(([v,x])=>el('option',{value:v},x)));
+  const p=el('input',{class:'in num',type:'number',min:'0',step:'0.1',inputmode:'decimal',placeholder:'Precio S/'});
+  const st=el('input',{class:'in num',type:'number',min:'0',step:'1',inputmode:'numeric',value:'1'});
+  const g=el('input',{class:'in',placeholder:'Grupo (solo si es variante, ej. ram-1500-23)',maxlength:'80',style:'flex:1;min-width:200px'});
+  const v=el('input',{class:'in',placeholder:'Variante (ej. Super Treasure Hunt)',maxlength:'80',style:'flex:1;min-width:200px'});
+  $('#pane').replaceChildren(el('h2',{},'Nuevo auto'),
+    el('div',{class:'box'},
+      el('div',{class:'line'},n),el('div',{class:'line'},s),
+      el('div',{class:'line'},el('span',{},'Tipo'),t,el('span',{},'Precio'),p,el('span',{},'Stock'),st),
+      el('div',{class:'line'},g,v),
+      el('div',{class:'line'},el('button',{class:'btn ok',onclick:async()=>{
+        if(n.value.trim().length<3)return alert('Falta el nombre');
+        if(p.value===''||!(+p.value>=0))return alert('Falta el precio');
+        const{data,error}=await sb.rpc('admin_crear',{p_nombre:n.value,p_serie:s.value,p_tipo:t.value,p_precio:+p.value,p_stock:st.value===''?1:+st.value,p_grupo:g.value,p_variante:v.value});
+        if(error)return alert('No se pudo: '+error.message);
+        sel=data;await boot();
+      }},'Crear auto'))),
+    el('p',{class:'hint'},'Al crearlo se abre su ficha para subir la foto. Se verá en la web con precio, stock y foto.'));
+};
+
+function drop(a){
+  const src=fotoSrc(a.foto);
+  const box=el('div',{class:'drop',tabindex:'0'});
+  const bar=el('div',{class:'bar'});
+  const input=el('input',{type:'file',accept:'image/*'});
+  if(src)box.append(el('img',{src,alt:a.nombre}));else box.append(el('div',{},'Suelta aquí la foto',el('br'),el('span',{class:'hint'},'o toca para elegir')));
+  box.append(bar,input);
+  input.onclick=e=>e.stopPropagation();
+  box.onclick=()=>input.click();
+  box.ondragover=e=>{e.preventDefault();box.classList.add('over')};box.ondragleave=()=>box.classList.remove('over');
+  box.ondrop=e=>{e.preventDefault();box.classList.remove('over');if(e.dataTransfer.files[0])subir(a,e.dataTransfer.files[0],bar)};
+  input.onchange=()=>input.files[0]&&subir(a,input.files[0],bar);
+  return box;
+}
+async function cargarImg(file){
+  const url=URL.createObjectURL(file);
+  try{return await new Promise((ok,ko)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ko(new Error('Este formato de foto no se puede leer. Prueba con una foto normal (JPG).'));i.src=url})}
+  finally{setTimeout(()=>URL.revokeObjectURL(url),30000)}
+}
+async function redim(file,max,q){
+  let src;
+  try{src=await cargarImg(file)}catch(e){try{src=await createImageBitmap(file)}catch(_){throw e}}
+  const w=src.naturalWidth||src.width,h=src.naturalHeight||src.height;
+  const k=Math.min(1,max/Math.max(w,h));
+  const cv=document.createElement('canvas');cv.width=Math.round(w*k);cv.height=Math.round(h*k);
+  cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);
+  return new Promise((ok,ko)=>cv.toBlob(b=>b?ok(b):ko(new Error('No se pudo procesar la foto')),'image/jpeg',q));
+}
+async function subir(a,file,bar){
+  try{
+    bar.style.width='10%';
+    const full=await redim(file,1600,.88),mini=await redim(file,600,.8);
+    bar.style.width='35%';
+    const base=`${a.slug}/${Date.now()}`;
+    const up=async(path,blob)=>{const{error}=await sb.storage.from('hotwheels').upload(path,blob,{contentType:'image/jpeg',cacheControl:'31536000',upsert:false});if(error)throw error;return sb.storage.from('hotwheels').getPublicUrl(path).data.publicUrl};
+    const u1=await up(base+'.jpg',full);bar.style.width='70%';
+    const u2=await up(base+'_m.jpg',mini);bar.style.width='90%';
+    const{error}=await sb.rpc('admin_set_foto',{p_id:a.id,p_url:u1,p_mini:u2});if(error)throw error;
+    bar.style.width='100%';await boot();
+  }catch(e){bar.style.width='0';const m='No se pudo subir: '+(e.message||e);try{alert(m)}catch(_){}}
+}
+
+function show(v){$('#app').hidden=v!=='autos';$('#ventasView').hidden=v!=='ventas';if(v==='ventas')cargarVentas()}
+$('#vAutos').onclick=()=>show('autos');$('#vVentas').onclick=()=>show('ventas');
+async function cargarVentas(){
+  const box=$('#ventasView');const{data,error}=await sb.rpc('admin_ventas');
+  if(error){box.replaceChildren(el('p',{class:'empty'},'No se pudo cargar: '+error.message));return}
+  const ok=data.filter(v=>!v.anulada);const hoyS=new Date().toLocaleDateString('en-CA',{timeZone:'America/Lima'});
+  const sum=x=>x.reduce((t,v)=>t+Number(v.precio_venta),0);
+  const mes=ok.filter(v=>v.fecha.slice(0,7)===hoyS.slice(0,7));
+  const csv=()=>{const h=['fecha','auto','variante','precio_venta','canal','cliente','nota','anulada'];const q=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
+    const t=[h.join(','),...data.map(v=>[v.fecha,v.nombre,v.variante,v.precio_venta,v.canal,v.cliente,v.nota,v.anulada].map(q).join(','))].join('\n');
+    const l=document.createElement('a');l.href=URL.createObjectURL(new Blob(['﻿'+t],{type:'text/csv'}));l.download='ventas-hotwheels.csv';l.click()};
+  box.replaceChildren(
+    el('div',{class:'kpis'},el('div',{class:'kpi'},'Ventas del mes',el('b',{},money(sum(mes))+' · '+mes.length)),el('div',{class:'kpi'},'Ventas totales',el('b',{},money(sum(ok))+' · '+ok.length)),el('button',{class:'btn',style:'align-self:center',onclick:csv},'Descargar CSV')),
+    data.length?el('table',{class:'tbl'},el('tr',{},['Fecha','Auto','Precio','Canal','Cliente / nota',''].map(h=>el('th',{},h))),
+      data.map(v=>el('tr',{class:v.anulada?'anul':''},el('td',{},v.fecha),el('td',{},v.nombre+(v.variante?' ('+v.variante+')':'')),el('td',{},money(v.precio_venta)),el('td',{},v.canal||''),el('td',{},[v.cliente,v.nota].filter(Boolean).join(' · ')),
+        el('td',{},v.anulada?'Anulada':el('button',{class:'btn ghost',style:'padding:4px 10px;box-shadow:none',onclick:async()=>{if(!confirm('¿Anular esta venta? El auto vuelve al stock.'))return;const{error}=await sb.rpc('admin_anular_venta',{p_venta:v.id});if(error)return alert(error.message);await boot();cargarVentas()}},'Anular'))))):el('p',{class:'empty'},'Aún no hay ventas registradas.'));
+}
+sb.auth.onAuthStateChange(()=>{});
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hot Wheels · Ruma Store</title>
+<meta name="description" content="Catálogo de Hot Wheels de Ruma Store, Lima. Elige uno por uno o arma tu carrito y pídelo por WhatsApp.">
+<meta property="og:title" content="Hot Wheels · Ruma Store">
+<meta property="og:description" content="Autos Hot Wheels originales. Escoge 1 x 1 o arma tu carrito y pídelo por WhatsApp.">
+<meta name="theme-color" content="#4B2E83">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --brand:#4B2E83; --brand-m:#8E64E2; --brand-l:#A27EEF; --sec:#FFB727; --sec-m:#FCD611;
+  --bg:#FFF8D8; --red:#FF3B3B; --ink:#131316; --card:#fff; --line:rgba(75,46,131,.14); --muted:#5b5470; --ok:#1fa35b;
+  --shadow:0 10px 30px -12px rgba(75,46,131,.35);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:Quicksand,system-ui,sans-serif;font-weight:500;line-height:1.45;min-height:100vh;
+  background-image:radial-gradient(circle at 8% 0%,rgba(162,126,239,.20),transparent 45%),radial-gradient(circle at 100% 100%,rgba(162,126,239,.14),transparent 45%);background-attachment:fixed}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.display{font-family:'Luckiest Guy',cursive;font-weight:400;letter-spacing:.02em}
+.sr{position:absolute;left:-9999px}
+a{color:inherit}
+
+header{position:sticky;top:0;z-index:30;background:var(--brand);color:#fff;box-shadow:0 6px 20px -10px rgba(0,0,0,.5)}
+.bar{display:flex;align-items:center;gap:12px;height:62px}
+.logo{min-width:0;color:var(--sec);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo img{height:52px;width:auto;display:block;flex:0 0 auto;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+.logo small{font-weight:700;font-size:12px;color:#fff;opacity:.85;letter-spacing:.08em;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis}
+.spacer{flex:1}
+.cartbtn{position:relative;flex:0 0 auto;white-space:nowrap;display:flex;align-items:center;gap:8px;background:var(--sec);color:#131316;border-radius:999px;padding:9px 16px;font-weight:700;border:2px solid #131316;box-shadow:3px 3px 0 #131316;transition:transform .12s}
+.cartbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #131316}
+.cartbtn .n{background:#131316;color:var(--sec);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px;padding:0 6px}
+@media(max-width:420px){.bar{gap:8px}.logo small{font-size:10.5px;letter-spacing:.05em}.cartbtn{padding:8px 12px}.cartbtn .lbl{display:none}}
+
+.hero{padding:34px 0 10px}
+.hero h1{font-size:clamp(34px,6.4vw,64px);line-height:1;color:var(--brand);text-shadow:3px 3px 0 var(--sec)}
+.hero p{margin-top:12px;max-width:560px;color:var(--muted);font-size:17px}
+
+.controls{position:sticky;top:62px;z-index:20;padding:10px 12px;margin:0 -12px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:0 0 18px 18px;box-shadow:0 8px 18px -14px rgba(75,46,131,.5)}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:10px 18px;border-radius:999px;border:2px solid var(--brand);font-weight:700;background:var(--card);color:var(--brand);display:flex;gap:8px;align-items:center;transition:.15s}
+.tab .c{font-size:12px;background:var(--brand);color:#fff;border-radius:999px;padding:1px 8px}
+.tab[aria-selected="true"]{background:var(--brand);color:#fff;box-shadow:3px 3px 0 var(--sec)}
+.tab[aria-selected="true"] .c{background:var(--sec);color:#131316}
+@media(max-width:520px){.tab{padding:9px 14px;font-size:15px;gap:6px}}
+.row2{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.search{flex:1 1 220px}
+.search input{width:100%}
+.search input,.sort{padding:11px 14px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit;outline:none}
+.search input:focus,.sort:focus{border-color:var(--brand-m)}
+.sort{flex:0 0 200px;width:200px;min-width:0;-webkit-appearance:none;appearance:none;padding-right:40px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%234B2E83' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;cursor:pointer;font-weight:600}
+@media(max-width:560px){.sort{flex:1 1 100%;width:100%}}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;padding:12px 0 90px}
+@media(max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.card{background:var(--card);border-radius:20px;border:2px solid var(--line);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .18s,border-color .18s;animation:rise .45s both;min-width:0}
+.card:hover{transform:translateY(-4px);border-color:var(--brand-m)}
+.card.out{opacity:.62}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.shot{aspect-ratio:4/5;background:linear-gradient(160deg,var(--brand-l),var(--brand-m) 55%,#6f46c9);display:grid;place-items:center;position:relative;cursor:pointer;padding:8px}
+.shot img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;transition:transform .25s}
+.card:hover .shot img{transform:scale(1.03)}
+.badge{position:absolute;top:10px;left:10px;background:var(--sec);color:#131316;font-weight:700;font-size:11px;border:2px solid #131316;border-radius:10px;padding:2px 8px;box-shadow:2px 2px 0 #131316;text-transform:uppercase;letter-spacing:.03em}
+.badge.out{background:#e7e2f1}
+.incart{position:absolute;top:10px;right:10px;background:var(--ok);color:#fff;border-radius:10px;font-size:12px;font-weight:700;padding:3px 8px}
+.info{padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.name{font-size:14.5px;line-height:1.25;font-weight:700;cursor:pointer;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px}
+.serie{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.opt{border:1px dashed var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.opt.sth{border:1px solid var(--sec-m);background:rgba(252,214,17,.12)}
+.opt-name{font-size:12px;font-weight:700;color:var(--muted)}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.price{font-family:'Luckiest Guy';font-size:24px;color:var(--brand);line-height:1}
+.price small{font-size:13px;margin-right:2px}
+.stock{font-size:12px;font-weight:700}
+.stock.ok{color:var(--ok)}.stock.low{color:#b45309}.stock.out{color:#b3261e}
+.stepper{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:2px}
+.stepper button{width:34px;height:34px;border-radius:9px;background:var(--brand);color:#fff;font-size:18px;font-weight:700;display:grid;place-items:center;line-height:1}
+.stepper button:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.stepper .q{font-weight:700;min-width:24px;text-align:center}
+.stepper.zero button[data-a="dec"]{visibility:hidden}
+
+.empty{grid-column:1/-1;text-align:center;padding:60px 10px;color:var(--muted)}
+.empty .display{font-size:30px;color:var(--brand);margin-bottom:8px}
+
+dialog{border:0;padding:0;background:transparent;margin:auto;width:min(900px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);overflow:visible;color:var(--ink)}
+dialog::backdrop{background:rgba(19,19,22,.72);backdrop-filter:blur(4px)}
+.modal{width:100%;max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;background:var(--bg);border-radius:24px;border:3px solid #131316;box-shadow:8px 8px 0 #131316;display:grid;grid-template-columns:1.05fr 1fr}
+@media(max-width:760px){.modal{grid-template-columns:1fr}}
+.stage{background:linear-gradient(160deg,var(--brand-l),var(--brand-m) 55%,#6f46c9);position:relative;min-height:320px;display:grid;place-items:center;padding:16px;overflow:hidden}
+.stage img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:12px;cursor:zoom-in;transition:transform .2s}
+.stage img.zoom{transform:scale(2);cursor:zoom-out}
+.detail{padding:24px 22px;display:flex;flex-direction:column;gap:14px}
+.detail h2{font-size:20px;line-height:1.25}
+.note{font-size:13.5px;color:var(--muted)}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;align-self:flex-start}
+.close{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;border-radius:50%;background:#fff;color:#131316;border:2px solid #131316;font-size:20px;line-height:1;box-shadow:2px 2px 0 #131316}
+.cta{background:var(--sec);color:#131316;border:2px solid #131316;box-shadow:4px 4px 0 #131316;border-radius:14px;padding:13px;font-weight:700;font-size:16px;transition:transform .1s;width:100%}
+.cta:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #131316}
+.cta.wa{background:#25D366;color:#06210f}
+.cta[disabled]{opacity:.5;pointer-events:none}
+
+.drawer{position:fixed;inset:0;z-index:50;display:none}
+.drawer.open{display:block}
+.scrim{position:absolute;inset:0;background:rgba(19,19,22,.6);backdrop-filter:blur(3px)}
+.panel{position:absolute;right:0;top:0;bottom:0;width:min(440px,100vw);background:var(--bg);border-left:3px solid #131316;display:flex;flex-direction:column;animation:slide .25s}
+@keyframes slide{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.phead{background:var(--brand);padding:14px 18px;display:flex;align-items:center;gap:10px}
+.phead h3{font-size:26px;color:var(--sec);text-shadow:2px 2px 0 #131316}
+.items{flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.item{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px}
+.item .th{width:62px;height:62px;border-radius:10px;background:linear-gradient(160deg,var(--brand-l),var(--brand-m));display:grid;place-items:center;overflow:hidden}
+.item .th img{width:100%;height:100%;object-fit:cover}
+.item .t{font-size:13px;line-height:1.25;font-weight:700}
+.item .p{font-weight:700;color:var(--brand);margin-top:3px;font-size:13px}
+.rm{width:34px;height:34px;border-radius:10px;border:2px solid var(--line);color:var(--red);font-size:18px}
+.foot{padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-top:2px solid var(--line);display:flex;flex-direction:column;gap:10px;background:var(--card)}
+.total{display:flex;justify-content:space-between;align-items:baseline;font-weight:700}
+.total .display{font-size:34px;color:var(--brand)}
+.mini{font-size:12.5px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#131316;color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:80;white-space:nowrap;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+#monedas{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+#monedas img{position:absolute;opacity:.2;user-select:none}
+footer{padding:36px 0 56px;color:var(--muted);font-size:14px;text-align:center}
+.cierre{max-width:640px;margin:0 auto 22px;background:var(--brand);color:#fff;border-radius:22px;padding:24px 22px;box-shadow:6px 6px 0 var(--sec);border:2px solid #131316}
+.cierre h3{font-family:'Luckiest Guy',cursive;font-weight:400;font-size:clamp(22px,4.2vw,30px);color:var(--sec);text-shadow:2px 2px 0 #131316;letter-spacing:.02em}
+.cierre p{margin:8px 0 16px;font-size:15px}
+.cierre a{display:inline-flex;gap:8px;align-items:center;background:var(--sec);color:#131316;font-weight:700;border-radius:999px;padding:12px 22px;border:2px solid #131316;box-shadow:3px 3px 0 #131316;text-decoration:none}
+.mundo{max-width:640px;margin:0 auto 22px;display:flex;gap:16px;align-items:center;text-align:left;background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px 18px;box-shadow:var(--shadow)}
+.mundo .rey{height:120px;width:auto;flex:0 0 auto}
+.mundo h4{font-family:'Luckiest Guy',cursive;font-weight:400;font-size:22px;color:var(--brand);letter-spacing:.02em}
+.mundo p{margin:4px 0 10px;font-size:14px}
+.enl{display:flex;flex-wrap:wrap;gap:8px}
+.enl a{padding:8px 14px;border-radius:999px;border:2px solid var(--brand);color:var(--brand);font-weight:700;font-size:14px;text-decoration:none;background:var(--card)}
+.enl a:hover{background:var(--brand);color:#fff}
+@media(max-width:520px){.mundo{flex-direction:column;text-align:center}.enl{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="https://rumastore.shop/?utm_source=hotwheels&utm_medium=header" aria-label="Ruma Store, ir a la tienda"><img src="https://jfekxykuasvmanmolbwg.supabase.co/storage/v1/object/public/cartas/marca/logo-ruma.png" alt="Ruma Store" width="62" height="44"><small>Hot Wheels</small></a>
+    <div class="spacer"></div>
+    <button class="cartbtn" id="openCart" aria-label="Abrir carrito"><span aria-hidden="true">🛒</span><span class="lbl">Carrito</span><span class="n" id="cartN">0</span></button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1 class="display">Hot Wheels<br>para coleccionar</h1>
+    <p>Autos originales fotografiados uno por uno. Elige el que te guste o arma tu carrito y lo coordinamos por WhatsApp.</p>
+  </section>
+
+  <div class="controls">
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="row2">
+      <div class="search"><label class="sr" for="q">Buscar</label><input id="q" type="search" placeholder="Buscar auto o serie…" autocomplete="off"></div>
+      <label class="sr" for="sort">Ordenar</label>
+      <select class="sort" id="sort">
+        <option value="pv-asc" selected>Menor precio</option>
+        <option value="pv-desc">Mayor precio</option>
+        <option value="nombre">Nombre A–Z</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid" id="grid" aria-live="polite"></div>
+</main>
+
+<footer class="wrap"><div class="cierre"><h3>¿No ves el que buscas?</h3><p>Escríbenos por WhatsApp: te confirmamos disponibilidad al instante y coordinamos pago y envío. Si no lo tenemos, te lo conseguimos.</p><a id="ctaWa" href="#" target="_blank" rel="noopener">💬 Escribir a Ruma por WhatsApp</a></div><div class="mundo"><img class="rey" src="https://jfekxykuasvmanmolbwg.supabase.co/storage/v1/object/public/cartas/marca/rey-ruma.png" alt="El Rey de Ruma" loading="lazy" width="110" height="150">
+<div><h4>Entra al mundo del Rey 👑</h4><p>Más colección, juegos y premios te esperan en Ruma.</p>
+<div class="enl"><a href="https://rumastore.shop/?utm_source=hotwheels&amp;utm_medium=footer" target="_blank" rel="noopener">🛍️ Tienda Ruma</a><a href="https://maquina.rumastore.shop/reino/?utm_source=hotwheels&amp;utm_medium=footer" target="_blank" rel="noopener">🎮 Reino de Ruma</a><a href="https://maquina.rumastore.shop/?utm_source=hotwheels&amp;utm_medium=footer" target="_blank" rel="noopener">🎰 Máquina del Rey</a></div></div></div>Ruma Store · Lima, Perú · Hot Wheels originales</footer>
+
+<dialog id="dlg" aria-label="Detalle del auto"><div class="modal" id="modal"></div></dialog>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" role="dialog" aria-label="Carrito">
+    <div class="phead"><h3 class="display">Tu carrito</h3><div class="spacer"></div><button class="close" style="position:static" id="closeCart" aria-label="Cerrar">✕</button></div>
+    <div class="items" id="items"></div>
+    <div class="foot">
+      <div class="total"><span>Total</span><span class="display" id="total">S/ 0</span></div>
+      <button class="cta wa" id="wa">Pedir por WhatsApp</button>
+      <p class="mini">No se cobra nada en esta página. Enviamos tu lista a WhatsApp y coordinamos pago y entrega contigo.</p>
+    </div>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+const SB_URL='https://icqqrsmswvnxebsnqfhk.supabase.co';
+const SB_KEY='sb_publishable_7XsKiTIDSGOnPrXs_h0E4Q_wMZvcBke';
+const WA='51926999771';
+(function(){
+  const C='https://jfekxykuasvmanmolbwg.supabase.co/storage/v1/object/public/cartas/marca/moneda-fondo.png';
+  const pos=[[4,6,70,-12],[22,3,44,10],[41,9,58,18],[63,4,40,-20],[84,7,66,8],[93,22,46,25],
+    [10,28,50,-8],[33,34,38,14],[56,30,64,-15],[78,40,48,22],[3,50,62,12],[20,58,42,-18],
+    [45,52,56,6],[68,60,70,-10],[90,64,40,16],[8,78,66,-6],[28,84,48,20],[52,80,40,-14],[74,88,60,10],[94,90,50,-22]];
+  const box=document.createElement('div');box.id='monedas';box.setAttribute('aria-hidden','true');
+  pos.forEach(([x,y,w,r])=>{const i=new Image();i.src=C;i.alt='';i.decoding='async';i.loading='lazy';i.style.cssText=`left:${x}%;top:${y}%;width:${w}px;transform:rotate(${r}deg)`;box.append(i)});
+  document.body.prepend(box);
+  const a=document.getElementById('ctaWa');
+  if(a)a.href='https://wa.me/'+WA+'?text='+encodeURIComponent('Hola Ruma Store 👑 Vi su catálogo de Hot Wheels y quiero consultar por un auto.');
+})();
+
+const $=s=>document.querySelector(s);
+const el=(t,a={},...k)=>{const e=document.createElement(t);for(const[kk,v]of Object.entries(a)){if(kk==='class')e.className=v;else if(kk.startsWith('on'))e.addEventListener(kk.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(kk,v)}k.flat().forEach(c=>e.append(c?.nodeType?c:document.createTextNode(c??'')));return e};
+const soles=n=>'S/ '+Number(n).toLocaleString('es-PE',{minimumFractionDigits:2,maximumFractionDigits:2});
+// Foto: ruta relativa del sitio (img/…) o URL del bucket de este mismo proyecto. Nada más.
+const foto=u=>{if(!u)return '';if(/^img\/[a-z0-9._-]+$/i.test(u))return u;try{const x=new URL(u);return x.origin===SB_URL?x.href:''}catch{return ''}};
+const ETIQ={Todos:'Todos',licenciado:'Licenciados',fantasia:'Fantasía'};
+
+let items=[],tab='Todos',cart={};
+const store={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+try{const raw=JSON.parse(store.get('ruma_hw_cart')||'{}');for(const[k,v]of Object.entries(raw))if(typeof k==='string'&&Number.isInteger(v)&&v>0)cart[k]=v}catch{}
+const saveCart=()=>store.set('ruma_hw_cart',JSON.stringify(cart));
+const byId=id=>items.find(p=>p.id===id);
+const cartCount=()=>Object.values(cart).reduce((a,b)=>a+b,0);
+const cartTotal=()=>Object.entries(cart).reduce((s,[id,q])=>{const p=byId(id);return s+(p?p.precio*q:0)},0);
+
+function grupos(list){
+  const m=new Map();
+  list.forEach(p=>{const k=p.grupo||p.id;if(!m.has(k))m.set(k,[]);m.get(k).push(p)});
+  return [...m.values()].map(ms=>ms.sort((a,b)=>(a.variante||'').localeCompare(b.variante||'')));
+}
+const minPrecio=ms=>{const d=ms.filter(m=>m.stock>0);return Math.min(...(d.length?d:ms).map(m=>m.precio))};
+const hayStock=ms=>ms.some(m=>m.stock>0);
+
+async function load(){
+  const g=$('#grid');g.replaceChildren(el('div',{class:'empty'},'Cargando autos…'));
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/productos?select=id,nombre,serie,tipo,precio,stock,foto,foto_mini,grupo,variante&order=nombre.asc`,{headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}});
+    if(!r.ok)throw new Error(r.status);
+    items=(await r.json()).filter(p=>foto(p.foto)).map(p=>({...p,precio:Number(p.precio),stock:Number(p.stock)}));
+  }catch(e){
+    g.replaceChildren(el('div',{class:'empty'},el('div',{class:'display'},'Ups'),'No pudimos cargar el catálogo. Intenta de nuevo en un momento.'));return;
+  }
+  for(const id of Object.keys(cart)){const p=byId(id);if(!p||p.stock<1)delete cart[id];else cart[id]=Math.min(cart[id],p.stock)}
+  saveCart();renderTabs();render();renderCart();
+}
+
+function renderTabs(){
+  const t=$('#tabs');t.replaceChildren();
+  const gs=grupos(items);
+  ['Todos','licenciado','fantasia'].forEach(e=>{
+    const n=gs.filter(ms=>e==='Todos'||ms[0].tipo===e).length;
+    t.append(el('button',{class:'tab',role:'tab','aria-selected':String(e===tab),onclick:()=>{tab=e;renderTabs();render()}},ETIQ[e],el('span',{class:'c'},String(n))));
+  });
+}
+
+function sortGrupos(gs){
+  const s=$('#sort').value;
+  const name=ms=>ms[0].nombre.replace(/^['"´`]+/,'');
+  return gs.sort((a,b)=>{
+    const ag=(hayStock(a)?0:1)-(hayStock(b)?0:1);if(ag)return ag;   // agotados al final
+    if(s==='nombre')return name(a).localeCompare(name(b),'es',{numeric:true,sensitivity:'base'});
+    const d=minPrecio(a)-minPrecio(b);
+    return s==='pv-desc'?-d:d||name(a).localeCompare(name(b),'es',{numeric:true,sensitivity:'base'});
+  });
+}
+
+function render(){
+  const q=$('#q').value.trim().toLowerCase();
+  const gs=sortGrupos(grupos(items).filter(ms=>(tab==='Todos'||ms[0].tipo===tab)&&(!q||ms.some(m=>(m.nombre+' '+(m.serie||'')).toLowerCase().includes(q)))));
+  const g=$('#grid');g.replaceChildren();
+  if(!gs.length){g.append(el('div',{class:'empty'},el('div',{class:'display'},items.length?'Nada por aquí':'Muy pronto'),items.length?'Prueba con otra búsqueda.':'Estamos fotografiando los autos. Vuelve en unos días.'));return}
+  gs.forEach((ms,i)=>g.append(cardEl(ms,i)));
+}
+
+function stepper(m){
+  const q=cart[m.id]||0;
+  return el('div',{class:'stepper'+(q===0?' zero':''),'data-id':m.id},
+    el('button',{type:'button','data-a':'dec','aria-label':'Quitar uno',onclick:()=>setQty(m.id,(cart[m.id]||0)-1)},'−'),
+    el('span',{class:'q'},String(q)),
+    el('button',{type:'button','data-a':'inc','aria-label':'Agregar uno',disabled:q>=m.stock,onclick:()=>setQty(m.id,(cart[m.id]||0)+1)},'+'));
+}
+const stockCls=n=>n<=0?'out':n<=2?'low':'ok';
+const stockTxt=n=>n<=0?'Agotado':n===1?'¡Última unidad!':n+' disponibles';
+function optEl(m,varia){
+  return el('div',{class:'opt'+(/treasure|sth/i.test(m.variante||'')?' sth':'')},
+    varia?el('div',{class:'opt-name'},m.variante||m.nombre):null,
+    el('div',{class:'prow'},el('div',{class:'price'},el('small',{},'S/'),m.precio.toFixed(2)),el('div',{class:'stock '+stockCls(m.stock)},stockTxt(m.stock))),
+    m.stock>0?stepper(m):null);
+}
+
+function cardEl(ms,i){
+  const p=ms.find(m=>foto(m.foto))||ms[0];
+  const open=()=>openDetail(ms);
+  const inC=ms.reduce((s,m)=>s+(cart[m.id]||0),0);
+  const out=!hayStock(ms);
+  return el('article',{class:'card'+(out?' out':''),style:`animation-delay:${Math.min(i,12)*35}ms`},
+    el('div',{class:'shot',onclick:open,role:'button',tabindex:'0',onkeydown:e=>{if(e.key==='Enter')open()}},
+      el('img',{src:foto(p.foto_mini)||foto(p.foto),alt:p.nombre,loading:'lazy',decoding:'async'}),
+      el('span',{class:'badge'+(out?' out':'')},out?'Agotado':p.tipo==='fantasia'?'Fantasía':'Licenciado'),
+      inC?el('span',{class:'incart'},inC+' ✓'):null),
+    el('div',{class:'info'},
+      el('div',{class:'name',onclick:open},p.nombre),
+      p.serie?el('div',{class:'serie'},p.serie):null,
+      el('div',{class:'opts'},ms.map(m=>optEl(m,ms.length>1)))));
+}
+
+function setQty(id,q){
+  const p=byId(id);if(!p)return;
+  q=Math.max(0,Math.min(q,p.stock));
+  if(q===0)delete cart[id];else cart[id]=q;
+  saveCart();render();renderCart();
+  if($('#dlg').open)openDetail(grupos(items).find(ms=>ms.some(m=>m.id===id)),true);
+}
+
+function openDetail(ms,keep){
+  if(!ms)return;
+  const p=ms.find(m=>foto(m.foto))||ms[0];
+  const img=el('img',{src:foto(p.foto),alt:p.nombre,onclick:e=>e.target.classList.toggle('zoom')});
+  $('#modal').replaceChildren(
+    el('div',{class:'stage'},el('button',{class:'close',onclick:()=>$('#dlg').close(),'aria-label':'Cerrar'},'✕'),img),
+    el('div',{class:'detail'},
+      el('span',{class:'chip'},p.tipo==='fantasia'?'Fantasía':'Licenciado'),
+      el('h2',{},p.nombre),
+      p.serie?el('p',{class:'note'},p.serie):null,
+      el('div',{class:'opts'},ms.map(m=>optEl(m,ms.length>1))),
+      el('p',{class:'note'},'Toca la imagen para acercar. Las fotos son del auto exacto que recibirás.'),
+      hayStock(ms)?el('button',{class:'cta wa',onclick:()=>wa(ms.filter(m=>m.stock>0).map(m=>[m.id,cart[m.id]||1]))},'Pedir por WhatsApp'):el('button',{class:'cta',disabled:true},'Agotado por ahora')));
+  if(!$('#dlg').open)$('#dlg').showModal();
+}
+$('#dlg').addEventListener('click',e=>{if(e.target===$('#dlg'))$('#dlg').close()});
+
+function renderCart(){
+  $('#cartN').textContent=cartCount();
+  const box=$('#items');box.replaceChildren();
+  const list=Object.entries(cart).map(([id,q])=>[byId(id),q]).filter(([p])=>p);
+  if(!list.length)box.append(el('div',{class:'empty'},el('div',{class:'display'},'Vacío'),'Agrega los autos que te gusten y pídelos todos juntos.'));
+  list.forEach(([p,q])=>box.append(el('div',{class:'item'},
+    el('div',{class:'th'},el('img',{src:foto(p.foto_mini)||foto(p.foto),alt:''})),
+    el('div',{},el('div',{class:'t'},p.nombre+(p.variante?' — '+p.variante:'')),el('div',{class:'p'},q+' × '+soles(p.precio)+' = '+soles(p.precio*q))),
+    el('button',{class:'rm',onclick:()=>setQty(p.id,0),'aria-label':'Quitar'},'✕'))));
+  $('#total').textContent=soles(cartTotal());
+  $('#wa').disabled=!list.length;
+}
+const setDrawer=o=>{$('#drawer').classList.toggle('open',o);$('#drawer').setAttribute('aria-hidden',String(!o));document.body.style.overflow=o?'hidden':''};
+$('#openCart').onclick=()=>{renderCart();setDrawer(true)};
+$('#closeCart').onclick=$('#scrim').onclick=()=>setDrawer(false);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')setDrawer(false)});
+$('#wa').onclick=()=>wa(Object.entries(cart));
+
+function wa(entries){
+  const list=entries.map(([id,q])=>[byId(id),q]).filter(([p])=>p);if(!list.length)return;
+  const lines=list.map(([p,q],i)=>`${i+1}. ${q}x ${p.nombre}${p.variante?' ('+p.variante+')':''} — ${soles(p.precio*q)}`);
+  const total=list.reduce((s,[p,q])=>s+p.precio*q,0);
+  const msg=`Hola Ruma Store 👑 Quiero estos Hot Wheels:\n\n${lines.join('\n')}\n\nTotal: ${soles(total)}\n\n¿Siguen disponibles? Quedo atento(a) para coordinar pago y entrega.`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
+}
+
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1600)}
+$('#q').addEventListener('input',render);$('#sort').addEventListener('change',render);
+load();
+</script>
+</body>
+</html>
